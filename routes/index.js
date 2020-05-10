@@ -62,13 +62,15 @@ router.post("/register",function(req,res){
 // });
 //show login form
 router.get("/login", function(req, res){
+
     res.render("login", {page: 'login'}); 
  });
  //login logic
 //middleware
 router.post("/Login",passport.authenticate("local",{
     successRedirect:"/campgrounds",
-    failureRedirect:"/login"
+     failureRedirect:"/login",
+     failureFlash: true
 
 }),function(req,res) {
 });
