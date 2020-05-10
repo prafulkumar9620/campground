@@ -16,6 +16,7 @@
     "ejs": "^3.0.2",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "http": "0.0.1-security",
     "locus": "^2.0.4",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",

@@ -96,13 +96,16 @@ router.get("/campgrounds/:id",function(req,res){
 //        res.redirect("/campgrounds");
 // }
 
-router.post("/campgrounds", middleware.isLoggedIn, upload.single('image'), function(req, res) {
+router.post("/campgrounds",  upload.single('image'), function(req, res) {
+ 
     cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
       if(err) {
+       // console.log("put");
         req.flash('error', err.message);
         return res.redirect('back');
       }
-     // console.log(result);
+      console.log("put correct");
+      //console.log(result);
       // add cloudinary url for the image to the campground object under image property
       req.body.campground.image = result.secure_url;
       // add image's public_id to campground object
@@ -121,6 +124,7 @@ router.post("/campgrounds", middleware.isLoggedIn, upload.single('image'), funct
       });
     });
 });
+
      
 
 //EDIT Campground routr
@@ -148,7 +152,8 @@ router.get("/campgrounds/:id/edit", middleware.checkCampgroundOwnership,function
 // });
 
 //image upload
-router.put("/campgrounds/:id", upload.single('image'),middleware.checkCampgroundOwnership, function(req, res){
+router.put("/campgrounds/:id", upload.single('image'), function(req, res){
+  console.log("put");
     campground.findById(req.params.id, async function(err, campground){
         if(err){
             req.flash("error", err.message);
