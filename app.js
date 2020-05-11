@@ -44,6 +44,7 @@ app.use(function(req,res,next){
     res.locals.currentuser=req.user; //req.user contain currently login id
     res.locals.error=req.flash("error");
     res.locals.success=req.flash("success");
+    
     next();               //res.locals this property give one local variable that variable can accesse any 
 });                      //where in this app i.e in ejs as well as js file
 

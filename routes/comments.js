@@ -50,13 +50,23 @@ router.get("/campgrounds/:id/comments/new",middleware.isLoggedIn,function(req,re
     });
     //Edit comments
     router.get("/campgrounds/:id/comments/:comment_id/edit",middleware.checkCommentOwnership,function(req,res){
-         comment.findById(req.params.comment_id,function(err,foundcomment){
-             if(err){
-                 res.redirect("back");
-             }
-             else{
-                res.render("editcomment",{campground_id:req.params.id,comment:foundcomment});
-             }
+        //error handling
+        campground.findById(req.params.id,function(err,foundcampground){
+            if(err || !foundcampground){
+                req.flash("error","Campground not found");
+                res.redirect("back");
+            }
+            comment.findById(req.params.comment_id,function(err,foundcomment){
+                if(err)
+                {
+                    //req.flash("error","Comment not found")
+                    res.redirect("back");
+                }
+                else{
+                   res.render("editcomment",{campground_id:req.params.id,comment:foundcomment});
+                }
+        })
+        
          });
        
 
