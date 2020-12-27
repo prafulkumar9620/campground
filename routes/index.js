@@ -121,7 +121,7 @@ router.get("/forgot", function(req, res) {
           service: 'Gmail', 
           auth: {
             user: 'yelpcamppraful2@gmail.com',
-            pass: 'yelpcamp@2069'
+            pass: 'y'
           }
         });
         var mailOptions = {
@@ -198,7 +198,7 @@ router.get("/forgot", function(req, res) {
           service: 'Gmail', 
           auth: {
             user: 'yelpcamppraful2@gmail.com',
-            pass: 'yelpcamp@2069'
+            pass: 'y'
           }
         });
         var mailOptions = {
