@@ -9,7 +9,10 @@ var userschema=new mongoose.Schema({
     email: {type: String, unique: true, required: true}, //reset password
     resetPasswordToken: String,                           //reset password
     resetPasswordExpires: Date,                           //reset password
-    isAdmin: {type:Boolean,default:false} //admin
+    isAdmin: {type:Boolean,default:false}, //admin
+    isPaid: { type: Boolean, default: false },
+    emailtoken:String,
+    isverified:Boolean
 });
 
 // userschema.pre('save', function(next) {

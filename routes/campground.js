@@ -2,7 +2,10 @@
 var express=require("express");
 var router=express.Router();
 var campground=require("../models/campground");
-var middleware=require("../middleware/index");
+//var middleware=require("../middleware/index");
+let { checkCampgroundOwnership, isLoggedIn, isPaid } = require("../middleware/index");
+router.use(isLoggedIn, isPaid);
+
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -51,7 +54,7 @@ campground.find({},function(err,allcampgrounds){
    
 });
 
-router.get("/campgrounds/new",middleware.isLoggedIn,function(req,res) {
+router.get("/campgrounds/new",function(req,res) {
 
     res.render("new");
 
@@ -74,29 +77,7 @@ router.get("/campgrounds/:id",function(req,res){
     });
 
 });
-//Create -add new campground to db
-//router.post("/campgrounds",middleware.isLoggedIn,upload.single('image'),function(req,res){
-    
-//      //get data from form and add to campground array
-//      //redirect back to campground page
-//      var name = req.body.name;
-//      var price = req.body.price;
-//      var image = req.body.image;
-//      var des=req.body.desc;
 
-//      var author = {
-//          id: req.user._id,
-//          username:req.user.username
-//      }
-//      var newcampground={name:name,price:price,image:image,description:des,author:author};
-//   //create a new campground and save to the databse
-//   campground.create(newcampground,function(err,newlyCreated){
-//     if(err) {
-//         console.log(err);
-//     }else{
-//         //redirect back to campgrounds page
-//        res.redirect("/campgrounds");
-// }
 
 router.post("/campgrounds",  upload.single('image'), function(req, res) {
  
@@ -130,7 +111,7 @@ router.post("/campgrounds",  upload.single('image'), function(req, res) {
      
 
 //EDIT Campground routr
-router.get("/campgrounds/:id/edit", middleware.checkCampgroundOwnership,function(req,res){
+router.get("/campgrounds/:id/edit", checkCampgroundOwnership,function(req,res){
    
         campground.findById(req.params.id,function(err,foundCampground) {
            
@@ -195,7 +176,7 @@ router.put("/campgrounds/:id", upload.single('image'), function(req, res){
 // });
 
 //image destroy
-router.delete('/campgrounds/:id',middleware.checkCampgroundOwnership, function(req, res) {
+router.delete('/campgrounds/:id',checkCampgroundOwnership, function(req, res) {
     campground.findById(req.params.id, async function(err, campground) {
       if(err) {
         req.flash("error", err.message);

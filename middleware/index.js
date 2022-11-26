@@ -1,5 +1,6 @@
 var campground=require("../models/campground");
 var comment=require("../models/comment");
+var user = require("../models/user")
 
 var middlewareObj = {};
 
@@ -65,8 +66,32 @@ else{
     if(req.isAuthenticated()){
         return next();
     }
-    req.flash("error","You need be logged in to do that");
-   res.redirect("/login");
+    if(req['headers']['content-type'] === 'application/json') {
+        return res.send({ error: 'Login required' });
+    }
+    req.flash("error", "You need to be logged in to do that");
+    res.redirect("/login");
+  
   }
-
+  middlewareObj.isPaid = function(req, res, next){
+    if (req.user.isPaid) return next();
+    req.flash("error", "Please pay registration fee before continuing");
+    res.redirect("/checkout");
+}
+//middeleware for email verifiaction
+ middlewareObj.isNotVerifide = async function(req,res,next)
+ {
+     try{
+      const ser = await user.findOne({username:req.body.username})
+      if(ser.isverified){
+          return next();
+      }
+      req.flash("error","your account has not been verified please check your email to verify your account");
+      return res.redirect("/");
+     }catch(error){
+        console.log(error);
+        req.flash("error","something went wrong");
+        res.redirect("/");
+     }
+ } 
   module.exports=middlewareObj;

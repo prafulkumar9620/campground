@@ -21,6 +21,18 @@
                     <p>
                         <em>Submitted By <%= campground.author.username %> - <%=  moment(campground.createdAt).fromNow() %> </em>
                     </p>
+                     <form action="">
+                    <div class="ui labeled button" tabindex="0">
+                        <div class="ui red button">
+                          <i class="hearticon"></i> Like
+                        </div>
+                        <a class="ui basic red left pointing label" class="btn btn-warning"  href="/like/:<%= campground._id %>?_method=POST">
+                          1,048
+                        </a>
+                      </div>
+                    </form> 
+                    
+                    
                     <% if(currentuser && campground.author.id.equals(currentuser._id)){ %>
                         <a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit Campground</a>
                         <form action="/campgrounds/<%= campground._id %>?_method=DELETE" id="delete-form" method="POST">

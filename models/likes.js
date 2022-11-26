@@ -1,7 +1,7 @@
 var mongoose=require("mongoose");
 
-var commentschema=mongoose.Schema({
-    text:{type:String,require:false},
+var likeschema=mongoose.Schema({
+    text:String,
     createdAt: { type: Date, default: Date.now },
     author:{
         id:{
@@ -12,4 +12,4 @@ var commentschema=mongoose.Schema({
     }
 
 });
-module.exports=mongoose.model("comment",commentschema);
+module.exports=mongoose.model("likes",likeschema);

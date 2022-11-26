@@ -1,0 +1,35 @@
+version: "3.1"
+
+services:
+  # web:
+  #   build: .
+  #   ports:
+  #     - "8000:5000"
+  # redis:
+  #   image: "redis:alpine"
+
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  yelpcamp:
+    image: yelpcamp
+    build:
+      context: .
+      # dockerfile: ./Dockerfile
+    ports:
+      - "80:3001"
+    environment:
+      - MONGODB_URI=mongodb://root:example@mongodb:27017/yelp_campground
+
+volumes:
+  mongodb_data:
+
+
