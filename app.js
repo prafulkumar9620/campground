@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 var express = require("express");
 var app = express();
 var bodyparser = require("body-parser");
@@ -6,19 +7,13 @@ var mongoose = require("mongoose");
 var flash = require("connect-flash");
 var passport = require("passport");
 var LocalStratergy = require("passport-local");
-var passportLocalMongoose = require("passport-local-mongoose");
 var methodOverride = require("method-override");
 var campground = require("./models/campground");
 var user = require("./models/user");
-//var seedDB=require("./seeds");
-
 var comment = require("./models/comment");
-//mongoose.pluralize(null);
 var commentRoutes = require("./routes/comments");
 var campgroundRoutes = require("./routes/campground");
 var indexRoutes = require("./routes/index");
-
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -52,7 +47,13 @@ app.use(indexRoutes);
 app.use(campgroundRoutes);
 app.use(commentRoutes);
 
-app.listen(3001, function (res, req) {
-    console.log("start");
 
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: false, useUnifiedTopology: true }).then(() => {
+
+    app.listen(3001, function (res, req) {
+        console.log("web server started on port: 3001");
+    });
+
+}).catch((error) => {
+    console.log(error)
 });

@@ -27,7 +27,7 @@ services:
     ports:
       - "80:3001"
     environment:
-      - MONGODB_URI=mongodb://root:example@mongodb:27017/yelp_campground
+      - MONGODB_URI=mongodb://root:example@mongodb:27017/yelp_campground?authSource=admin&authMechanism=SCRAM-SHA-1&tls=false
 
 volumes:
   mongodb_data:
